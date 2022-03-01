@@ -1,4 +1,4 @@
-from crypto.base import BaseCrypt, Lang
+from crypto.base import BaseCrypt, Lang, CryptoException
 from crypto.util import is_co_prime
 
 
@@ -8,8 +8,12 @@ class DecimationCrypt(BaseCrypt):
 
     @classmethod
     def _encrypt_raw(cls, text: str, key: str):
-        key = int(key)
-        assert is_co_prime(key, len(text))  # TODO change exception
+        try:
+            key = int(key)
+        except ValueError:
+            raise CryptoException("Key must be int")
+        if not is_co_prime(key, len(text)):
+            raise CryptoException("Key must be co-prime to text length")
         return "".join(
             cls._map_letter(i, key)
             for i in text
@@ -24,8 +28,12 @@ class DecimationCrypt(BaseCrypt):
 
     @classmethod
     def _decrypt_raw(cls, text: str, key: str):
-        key = int(key)
-        assert is_co_prime(key, len(text))  # TODO change exception
+        try:
+            key = int(key)
+        except ValueError:
+            raise CryptoException("Key must be int")
+        if not is_co_prime(key, len(text)):
+            raise CryptoException("Keys must be co-prime")
 
         alpha_upper = "".join((cls._map_letter(i, key) for i in cls._en_uppercase))
         alpha_lower = "".join((cls._map_letter(i, key) for i in cls._en_lowercase))
@@ -41,7 +49,7 @@ class DecimationCrypt(BaseCrypt):
 
 
 if __name__ == '__main__':
-    key = "100000001"
+    key = ""
     print(DecimationCrypt.encrypt("mexico", key))
     print(DecimationCrypt.decrypt(
         DecimationCrypt.encrypt("PizDoLiz1 zxcsda nxc vgsdn fasdnfgxcg dast sdfg 2", key),

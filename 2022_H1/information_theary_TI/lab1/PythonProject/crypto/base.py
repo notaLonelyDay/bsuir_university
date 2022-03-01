@@ -77,3 +77,7 @@ class BaseCrypt:
         alpha = lang_to_alpha[(cls._text_lang, uppercase)]
         assert alpha is not None, "Wrong alphabet"
         return alpha[idx]
+
+
+class CryptoException(Exception):
+    pass
