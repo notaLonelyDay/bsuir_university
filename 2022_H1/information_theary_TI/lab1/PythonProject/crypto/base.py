@@ -43,13 +43,12 @@ class BaseCrypt:
 
     @classmethod
     def _filter_text(cls, text: str, lang: Lang):
-        alpha = None
-        if lang == Lang.en:
-            alpha = cls._en_letters
-        elif lang == Lang.en:
-            alpha = cls._ru_letters
-        elif lang == Lang.dig:
-            alpha = string.digits
+        lang_to_alpha = {
+            Lang.en: cls._en_letters,
+            Lang.ru: cls._ru_letters,
+            Lang.dig: string.digits
+        }
+        alpha = lang_to_alpha[lang]
 
         assert alpha is not None, "Wrong alphabet"
         return "".join((i for i in text if i in alpha))
@@ -65,3 +64,16 @@ class BaseCrypt:
         )
         assert ans != -1, "symbol is not from ru/en alphabet"
         return ans
+
+    @classmethod
+    def _get_text_letter(cls, idx: int, uppercase=False):
+        lang_to_alpha = {
+            (Lang.en, True): cls._en_uppercase,
+            (Lang.en, False): cls._en_lowercase,
+            (Lang.ru, True): cls._ru_uppercase,
+            (Lang.ru, False): cls._ru_lowercase,
+            (Lang.dig, True): string.digits
+        }
+        alpha = lang_to_alpha[(cls._text_lang, uppercase)]
+        assert alpha is not None, "Wrong alphabet"
+        return alpha[idx]
