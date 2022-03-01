@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from crypto.base import BaseCrypt
 
 
 def getBadAplhabet():
@@ -99,6 +100,17 @@ def decode_vis(cypher_text, key):
         res += rotate_letter_back(char, rot_times)
         counter += 1
     return res
+
+
+class VigenerCrypt(BaseCrypt):
+
+    @classmethod
+    def _encrypt_raw(cls, text: str, key: str):
+        return encode_vis(plain_text=text, key=key)
+
+    @classmethod
+    def _decrypt_raw(cls, text: str, key: str):
+        return decode_vis(cypher_text=text, key=key)
 
 
 def main():
