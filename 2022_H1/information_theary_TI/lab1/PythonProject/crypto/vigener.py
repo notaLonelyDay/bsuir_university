@@ -12,7 +12,7 @@ def clean_key(key):
             a = 2 / 0
 
 
-def clean_text(text):
+def clean_text(text: str):
     badAlphabet = getBadAplhabet()
     print(badAlphabet)
     for i in text:
@@ -110,4 +110,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    # 4
