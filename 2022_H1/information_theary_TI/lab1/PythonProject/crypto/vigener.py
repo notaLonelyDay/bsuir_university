@@ -114,7 +114,7 @@ class VigenerCrypt(BaseCrypt):
 
 
 def main():
-    a = encode_vis("САНКТ-ПЕТЕРБУРГ  -  ГОРОД СВЯТОГО ПЕТРА", "ленин")
+    a = encode_vis("САНКТ-пЕТЕРБУРГ  -  ГОРОД СВЯТОГО ПЕТРА", "ленин")
     print(a)
     b = decode_vis(a, "ленин")
     print(b)
