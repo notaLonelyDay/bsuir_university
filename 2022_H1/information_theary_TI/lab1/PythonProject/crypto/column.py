@@ -23,17 +23,19 @@ class ColumnCrypt(BaseCrypt):
     @classmethod
     def _decrypt_raw(cls, text: str, key: str):
         key = cls.key_to_list(key)
-        matrix = [[] for _ in range(len(key))]
-        matrix_titled = list(zip(key, range(len(key)), matrix))  # 0-key; 1-idx; 3-str
+        lkey = len(key)
+        ltext = len(text)
+        matrix = [[] for _ in range(lkey)]
+        matrix_titled = list(zip(key, range(lkey), matrix))  # 0-key; 1-idx; 3-str
         matrix_titled.sort()
 
-        not_enough = len(key) - (len(text) % len(key))
-        take_letters = len(text) // len(key)
-        if len(text) % len(key) != 0:
+        not_enough = lkey - (ltext % lkey)
+        take_letters = ltext // lkey
+        if ltext % lkey != 0:
             take_letters += 1
         else:
             not_enough = 0
-        not_enough_range = range(len(key) - not_enough, len(key))
+        not_enough_range = range(lkey - not_enough, lkey)
 
         cur_pos = 0
 
