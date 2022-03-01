@@ -1,6 +1,7 @@
 import flask
 from flask import Flask, request, render_template, send_from_directory
 
+from crypto.base import CryptoException
 from crypto.column import ColumnCrypt
 from crypto.decimation import DecimationCrypt
 from crypto.vigener import VigenerCrypt
@@ -18,30 +19,38 @@ cyphers = [
 def hello_world():
     return render_template("index.html")
 
+
 @app.route('/js/<path:path>')
 def send_js(path):
     return send_from_directory('templates', path)
 
+
 def get_params():
-    text = request.args.get("text")
-    key = request.args.get("key")
-    cypher = request.args.get("cypher")
+    text = request.form['text']
+    key = request.form['key']
+    cypher = int(request.form['cypher'])
     return text, key, cypher
 
 
 @app.route("/api/encrypt", methods=["POST"])
 def encrypt():
-    text, key, cypher = get_params()
-    ans = cyphers[int(cypher)].encrypt(text, key)
+    try:
+        text, key, cypher = get_params()
+        ans = cyphers[int(cypher)].encrypt(text, key)
+    except CryptoException as e:
+        return str(e), 500
     return ans
 
 
 @app.route("/api/decrypt", methods=["POST"])
 def decrypt():
-    text, key, cypher = get_params()
-    ans = cyphers[int(cypher)].decrypt(text, key)
+    try:
+        text, key, cypher = get_params()
+        ans = cyphers[int(cypher)].decrypt(text, key)
+    except CryptoException as e:
+        return str(e), 500
     return ans
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

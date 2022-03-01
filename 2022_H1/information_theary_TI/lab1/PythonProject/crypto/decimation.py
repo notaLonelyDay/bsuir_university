@@ -12,7 +12,7 @@ class DecimationCrypt(BaseCrypt):
             key = int(key)
         except ValueError:
             raise CryptoException("Key must be int")
-        if not is_co_prime(key, len(text)):
+        if not is_co_prime(key, len(cls._en_uppercase)):
             raise CryptoException("Key must be co-prime to text length")
         return "".join(
             cls._map_letter(i, key)
@@ -22,7 +22,7 @@ class DecimationCrypt(BaseCrypt):
     @classmethod
     def _map_letter(cls, ch: str, key: int):
         return cls._get_text_letter(
-            cls._letter_index(ch) * key % len(cls._en_uppercase),
+            (cls._letter_index(ch) * key) % len(cls._en_uppercase),
             ch.isupper()
         )
 
@@ -32,7 +32,7 @@ class DecimationCrypt(BaseCrypt):
             key = int(key)
         except ValueError:
             raise CryptoException("Key must be int")
-        if not is_co_prime(key, len(text)):
+        if not is_co_prime(key, len(cls._en_uppercase)):
             raise CryptoException("Keys must be co-prime")
 
         alpha_upper = "".join((cls._map_letter(i, key) for i in cls._en_uppercase))
@@ -40,6 +40,8 @@ class DecimationCrypt(BaseCrypt):
 
         def map_encrypted(ch: str):
             alpha = alpha_upper if ch.isupper() else alpha_lower
+            if alpha.find(ch) == -1:
+                raise CryptoException("Invalid cypher text")
             return cls._get_text_letter(alpha.index(ch), ch.isupper())
 
         return "".join(

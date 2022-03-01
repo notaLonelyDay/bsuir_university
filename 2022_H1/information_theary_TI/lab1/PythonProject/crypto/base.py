@@ -21,9 +21,12 @@ class BaseCrypt:
 
     @classmethod
     def encrypt(cls, text: str, key: str):
+        filtered_text = cls._filter_text(text, cls._text_lang)
+        filtered_key = cls._filter_text(key, cls._key_lang)
+        cls._validate_data(filtered_text, filtered_key)
         return cls._encrypt_raw(
-            cls._filter_text(text, cls._text_lang),
-            cls._filter_text(key, cls._key_lang)
+            filtered_text,
+            filtered_key
         )
 
     @classmethod
@@ -32,14 +35,24 @@ class BaseCrypt:
 
     @classmethod
     def decrypt(cls, text: str, key: str):
+        filtered_text = cls._filter_text(text, cls._text_lang)
+        filtered_key = cls._filter_text(key, cls._key_lang)
+        cls._validate_data(filtered_text, filtered_key)
         return cls._decrypt_raw(
-            cls._filter_text(text, cls._text_lang),
-            cls._filter_text(key, cls._key_lang)
+            filtered_text,
+            filtered_key
         )
 
     @classmethod
     def _decrypt_raw(cls, text: str, key: str):
         pass
+
+    @classmethod
+    def _validate_data(cls, text, key):
+        if len(text) == 0:
+            raise CryptoException("Text must not be empty")
+        if len(key) == 0:
+            raise CryptoException("Key must not be empty")
 
     @classmethod
     def _filter_text(cls, text: str, lang: Lang):

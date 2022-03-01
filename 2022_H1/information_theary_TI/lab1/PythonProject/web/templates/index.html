@@ -1,52 +1,31 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <title>Название страницы</title>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="js/main.js"></script>
 </head>
 <body>
-
+<div>
     <div>
-        <div>
-            <p>Изгородь</p>
-                <h6>plain text:</h6>
-                <input type="text" size="40" id="plain_izg">
-                <h6>height:</h6>
-                <input type="number" size="10" id="height_izg">
-                <h6>cypher text:</h6>
-                <input type="text" size="40" id="out_izg">
-        </div>
+        <p>Cypher</p>
+        <h6>algorithm:</h6>
+        <select id="algo">
+            <option value="2">vigener [ru]</option>
+            <option value="0">column [en]</option>
+            <option value="1">decimation [en]</option>
+        </select>
+        <h6>text:</h6>
+        <input type="text" id="text">
+        <h6>key:</h6>
+        <input type="text" id="key">
+        <h6>cyphered text:</h6>
+        <input type="text" id="out">
+        <h6>error text:</h6>
+        <input type="text" id="error">
     </div>
-
-
-    <div>
-        <div>
-            <p>Виженер</p>
-            <h6>plain text:</h6>
-            <input type="text" size="40" id="plain_vis">
-            <h6>key:</h6>
-            <input type="text" size="20" id="key_vis">
-            <h6>cypher text:</h6>
-            <input type="text" size="40" id="out_vis">
-        </div>
-    </div>
-    
-    
-    <div>
-        <div>
-            <p>Плейфер</p>
-
-            <h6>plain text:</h6>
-            <input type="text" size="40" id="plain_pleh">
-            <h6>cypher text:</h6>
-            <input type="text" size="40" id="out_pleh">
-        
-        </div>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="js/main.js"></script>
-
+</div>
 </body>
 </html> 
