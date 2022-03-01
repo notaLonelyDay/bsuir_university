@@ -27,11 +27,12 @@ class ColumnCrypt(BaseCrypt):
         matrix_titled = list(zip(key, range(len(key)), matrix))  # 0-key; 1-idx; 3-str
         matrix_titled.sort()
 
+        not_enough = len(key) - (len(text) % len(key))
         take_letters = len(text) // len(key)
         if len(text) % len(key) != 0:
             take_letters += 1
-
-        not_enough = len(key) - (len(text) % len(key))
+        else:
+            not_enough = 0
         not_enough_range = range(len(key) - not_enough, len(key))
 
         cur_pos = 0
@@ -72,10 +73,11 @@ class ColumnCrypt(BaseCrypt):
 
 
 if __name__ == '__main__':
-    key = "PTOI"
+    key = "FKSIS"
     print(
         ColumnCrypt.decrypt(
-            ColumnCrypt.encrypt("FKSIS", key),
+            ColumnCrypt.encrypt("PTOI", key),
             key
         )
     )
+    print(ColumnCrypt.decrypt("PTOI", "FKSIS"))
