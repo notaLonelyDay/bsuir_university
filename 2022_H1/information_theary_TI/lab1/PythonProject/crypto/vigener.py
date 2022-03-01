@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from crypto.base import BaseCrypt
+from crypto.base import BaseCrypt, Lang
 
 
 def getBadAplhabet():
@@ -103,6 +103,8 @@ def decode_vis(cypher_text, key):
 
 
 class VigenerCrypt(BaseCrypt):
+    _text_lang = Lang.ru
+    _key_lang = Lang.ru
 
     @classmethod
     def _encrypt_raw(cls, text: str, key: str):
@@ -113,12 +115,8 @@ class VigenerCrypt(BaseCrypt):
         return decode_vis(cypher_text=text, key=key)
 
 
-def main():
-    a = encode_vis("САНКТ-пЕТЕРБУРГ  -  ГОРОД СВЯТОГО ПЕТРА", "ленин")
-    print(a)
-    b = decode_vis(a, "ленин")
-    print(b)
-
-
 if __name__ == "__main__":
-    main()
+    a = VigenerCrypt.encrypt("фыва олдж", "mem")
+    print(a)
+    b = VigenerCrypt.decrypt(a, "mem")
+    print(b)
