@@ -18,7 +18,6 @@ class ColumnCrypt(BaseCrypt):
 
         sorted_enum = list(enumerate(matrix))
         sorted_enum.sort(key=lambda i: cls._letter_index(key[i[0]]))
-        pprint.pprint(sorted_enum)
         return "".join((''.join(i[1]) for i in sorted_enum))
 
     @classmethod
@@ -73,11 +72,10 @@ class ColumnCrypt(BaseCrypt):
 
 
 if __name__ == '__main__':
-    key = "crypton"
-    print(ColumnCrypt.key_to_list(key))
+    key = "PTOI"
     print(
         ColumnCrypt.decrypt(
-            ColumnCrypt.encrypt("case", key),
+            ColumnCrypt.encrypt("FKSIS", key),
             key
         )
     )
