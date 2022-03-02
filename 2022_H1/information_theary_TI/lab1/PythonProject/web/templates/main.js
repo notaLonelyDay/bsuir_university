@@ -4,6 +4,8 @@ var baseUrl = ""
 var last = "en"
 var textFile
 var outFile
+var saveText
+var saveCrypted
 
 function algoChanged(){
 
@@ -61,6 +63,25 @@ function outChanged(){
     decrypt()
 }
 
+function saveFile(data){
+        // Convert the text to BLOB.
+        const textToBLOB = new Blob([data], { type: 'text/plain' });
+        const sFileName = 'formData.txt';	   // The file to save the data.
+
+        let newLink = document.createElement("a");
+        newLink.download = sFileName;
+
+        if (window.webkitURL != null) {
+            newLink.href = window.webkitURL.createObjectURL(textToBLOB);
+        }
+        else {
+            newLink.href = window.URL.createObjectURL(textToBLOB);
+            newLink.style.display = "none";
+            document.body.appendChild(newLink);
+        }
+        newLink.click();
+}
+
 function loadFromFile(file, input){
     var file = file.files[0];
     if (file) {
@@ -91,9 +112,20 @@ $(document).ready(function() {
     var error = document.getElementById("error");
     textFile = document.getElementById("text_file");
     outFile = document.getElementById("out_file");
+    saveCrypted = document.getElementById("save_crypted");
+    saveText = document.getElementById("save_text");
     textFile.addEventListener('input',() => {textFileChanged();});
     outFile.addEventListener('input',() => {outFileChanged();});
+    outFile.addEventListener('input',() => {outFileChanged();});
 
+    saveCrypted.addEventListener('click',() => {
+        data = out.value;
+        saveFile(data);
+    });
+    saveText.addEventListener('click',() => {
+        data = text.value;
+        saveFile(data);
+    });
     //algo.change(function() {
     //  alert( "Handler for .change() called." );
     //});
