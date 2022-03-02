@@ -2,6 +2,8 @@
 
 var baseUrl = ""
 var last = "en"
+var textFile
+var outFile
 
 function algoChanged(){
 
@@ -59,12 +61,39 @@ function outChanged(){
     decrypt()
 }
 
-$(function() {
+function loadFromFile(file, input){
+    var file = file.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.readAsText(file, "UTF-8");
+        reader.onload = function (evt) {
+            input.value = evt.target.result;
+        }
+        reader.onerror = function (evt) {
+            input.value = "error reading file";
+        }
+    }
+}
+function textFileChanged(){
+    loadFromFile(textFile, text);
+    textChanged();
+}
+function outFileChanged(){
+    loadFromFile(outFile, out);
+    outChanged();
+}
+
+$(document).ready(function() {
     var algo = document.getElementById("algo");
     var text = document.getElementById("text");
     var key = document.getElementById("key");
     var out = document.getElementById("out");
     var error = document.getElementById("error");
+    textFile = document.getElementById("text_file");
+    outFile = document.getElementById("out_file");
+    textFile.addEventListener('input',() => {textFileChanged();});
+    outFile.addEventListener('input',() => {outFileChanged();});
+
     //algo.change(function() {
     //  alert( "Handler for .change() called." );
     //});
