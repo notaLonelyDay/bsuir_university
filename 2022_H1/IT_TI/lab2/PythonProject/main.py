@@ -40,7 +40,7 @@ class Window(QWidget, Ui_Encrypter2000):
         self.isFileEncrypted = False
 
     def generateKey(self):
-        self.initialEdit.setText(''.join(random.choice(['0', '1']) for _ in range(regsize)))
+        self.initialEdit.setText(''.join(random.choice(['0', '1']) for _ in range(regsize-1)))
 
     def connectSignals(self):
         self.encryptButton.clicked.connect(partial(self.previewFile, encrypted=False))
@@ -58,7 +58,7 @@ class Window(QWidget, Ui_Encrypter2000):
 
         ans = []
         for i in range(size):
-            left = kthBit(key, regsize)
+            left = kthBit(key, regsize-1)
             ans.append(str(left))
             right = kthBit(key, xors[0])
             for j in range(1, len(xors)):
@@ -120,7 +120,7 @@ class Window(QWidget, Ui_Encrypter2000):
     def getInitialKey(self) -> int:
         """Returns -1 if can't get key"""
         keytext = self.initialEdit.text().strip()
-        if len(keytext) != regsize:
+        if len(keytext) != regsize-1:
             self.showError(f"Inital encryption bytes must be size of {regsize}")
             return -1
         ans = -1
@@ -135,7 +135,7 @@ class Window(QWidget, Ui_Encrypter2000):
         key = old
         for i in range(size):
             for j in range(8):
-                left = kthBit(key, regsize)
+                left = kthBit(key, regsize-1)
                 ans.append(bitstring.Bits(uint=left, length=1))
                 right = kthBit(key, xors[0])
                 for j in range(1, len(xors)):
