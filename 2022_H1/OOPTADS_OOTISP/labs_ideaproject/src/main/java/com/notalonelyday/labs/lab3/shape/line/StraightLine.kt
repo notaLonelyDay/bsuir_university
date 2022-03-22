@@ -5,10 +5,10 @@ import com.notalonelyday.labs.lab3.shape.base.DrawingFunction
 import com.notalonelyday.labs.lab3.shape.base.LineDrawingFunction
 
 class StraightLine(
-    x1: Double,
-    y1: Double,
-    x2: Double,
-    y2: Double,
+    x1: Int,
+    y1: Int,
+    x2: Int,
+    y2: Int,
 ) : AbstractShape() {
     override val F_x: List<DrawingFunction> = listOf(
         LineDrawingFunction(

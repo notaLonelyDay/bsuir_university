@@ -1,6 +1,8 @@
 package com.notalonelyday.labs.lab3.jframe;
 
 
+import com.notalonelyday.labs.lab3.shape.line.StraightLine;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -28,6 +30,8 @@ public class Surface extends JPanel {
     }
 
     public void drawFigures(Graphics graphics){
-        graphics.drawLine(1,2,3,4);
+        DrawerKt.drawShape(graphics,new StraightLine(
+            10,10,10,100
+        ), 1);
     }
 }
