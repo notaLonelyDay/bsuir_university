@@ -13,7 +13,10 @@ class LineDrawingFunction(
     x1,
     x2
 ) {
-    private val k = abs(y1 - y2).toDouble() / abs(x1 - x2);
+    init {
+        println("Line: ($x1;$y1) ($x2;$y2)")
+    }
+    private val k = (y2 - y1).toDouble() / (x2 - x1);
     private val b = y1 - k * x1;
 
     override fun invoke(x: Int): List<DrawingPrimitive> {
