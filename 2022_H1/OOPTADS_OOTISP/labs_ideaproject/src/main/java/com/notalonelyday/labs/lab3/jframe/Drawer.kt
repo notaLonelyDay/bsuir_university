@@ -9,21 +9,21 @@ fun Graphics.drawPoint(x: Int, y: Int) {
 }
 
 fun Graphics.drawPrimitive(x: Int, p: DrawingPrimitive, step: Int) {
-    when(p){
+    when (p) {
         is DrawingPrimitive.Point -> {
             drawPoint(x, p.y)
         }
         is DrawingPrimitive.Range -> {
-            for (y in p.fromY..p.toY step step){
+            for (y in p.fromY..p.toY step step) {
                 drawPoint(x, y)
             }
         }
     }
 }
 
-fun Graphics.drawShape(shape: AbstractShape, step: Int) {
+fun Graphics.drawShape(shape: AbstractShape, step: Int = 1) {
     for (f in shape.F_x) {
-        for (x in f.fromX..f.toX step step){
+        for (x in f.fromX..f.toX step step) {
             f.invoke(x).forEach { drawPrimitive(x, it, step) }
         }
     }
