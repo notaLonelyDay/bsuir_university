@@ -5,7 +5,7 @@ import com.notalonelyday.labs.lab3.shape.base.DrawingFunction
 import com.notalonelyday.labs.lab3.shape.base.DrawingPrimitive
 import com.notalonelyday.labs.lab3.shape.base.LineDrawingFunction
 
-class Rectangle(
+open class Rectangle(
     x1: Int,
     y1: Int,
     x2: Int,

@@ -5,7 +5,8 @@ import com.notalonelyday.labs.lab3.shape.base.DrawingPrimitive
 import java.awt.Graphics
 
 fun Graphics.drawPoint(x: Int, y: Int) {
-    drawLine(x, y, x, y);
+//    drawLine(x, y, x, y);
+    drawOval(x,y,2,2)
 }
 
 fun Graphics.drawPrimitive(x: Int, p: DrawingPrimitive, step: Int) {

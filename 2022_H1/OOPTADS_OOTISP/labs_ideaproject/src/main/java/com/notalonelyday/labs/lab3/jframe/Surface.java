@@ -1,8 +1,9 @@
 package com.notalonelyday.labs.lab3.jframe;
 
 
-import com.notalonelyday.labs.lab3.shape.line.StraightLine;
+import com.notalonelyday.labs.lab3.shape.round.Ellipse;
 import com.notalonelyday.labs.lab3.shape.polygon.Rectangle;
+import com.notalonelyday.labs.lab3.shape.polygon.Square;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,7 +39,19 @@ public class Surface extends JPanel {
         DrawerKt.drawShape(
                 graphics,
                 new Rectangle(
-                        10,10,100,100
+                        10,10,100,200
+                ), 1
+        );
+        DrawerKt.drawShape(
+                graphics,
+                new Square(
+                        100,100,100
+                ), 1
+        );
+        DrawerKt.drawShape(
+                graphics,
+                new Ellipse(
+                        500,500,400, 400
                 ), 1
         );
     }
