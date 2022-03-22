@@ -11,22 +11,6 @@ class StraightLine(
     x2: Int,
     y2: Int,
 ) : AbstractShape() {
-
-    companion object{
-        const val pointsNeeded = 2
-
-        fun create(vararg ps: Point): StraightLine {
-            val fp = ps[0]
-            val sp = ps[1]
-            return StraightLine(
-                fp.x,
-                fp.y,
-                sp.x,
-                sp.y
-            )
-        }
-    }
-
     override val F_x: List<DrawingFunction> = listOf(
         LineDrawingFunction(
             x1, y1, x2, y2

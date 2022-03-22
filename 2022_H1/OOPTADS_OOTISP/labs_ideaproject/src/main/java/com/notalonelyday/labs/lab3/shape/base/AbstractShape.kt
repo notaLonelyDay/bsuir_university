@@ -26,8 +26,5 @@ abstract class DrawingFunction(
 
 
 abstract class AbstractShape {
-    companion object{
-        abstract fun create(vararg ps: Point)
-    }
     abstract val F_x: List<DrawingFunction>
 }
