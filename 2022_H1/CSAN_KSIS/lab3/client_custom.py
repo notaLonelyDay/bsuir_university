@@ -26,12 +26,15 @@ import pytz  # python timezone module, non-standard
 tz_main = 'GMT'  # main timezone
 tz_alt = 'US/Eastern'  # alternate timezone
 prog_title = 'RFC 868 Time'  # program title
-time_serv = 'time-a.nist.gov'  # resolves to 129.6.15.28
+time_serv = '132.163.96.5'  # resolves to 129.6.15.28
+port = 37
+# time_serv = '127.0.0.1'  # resolves to 129.6.15.28
+# port = 3775
 
 
 def query_Time():  # query time server, returns timekeeper object
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # query server
-    s.connect((time_serv, 37))  # always port 37
+    s.connect((time_serv, port))  # always port 37
     data = s.recv(4)  # receive 32 bits, 4 bytes
     raw_time = int.from_bytes(data, byteorder='big')  # decode data
     return time_Keeper(raw_time, tz_main, tz_alt)  # calculate date and time
