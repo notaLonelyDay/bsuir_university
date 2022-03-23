@@ -20,7 +20,7 @@ class LineDrawingFunction(
     private val b = y1 - k * x1;
 
     override fun invoke(x: Int): List<DrawingPrimitive> {
-        return if (k == Double.POSITIVE_INFINITY) {
+        return if (k == Double.POSITIVE_INFINITY || k == Double.NEGATIVE_INFINITY) {
             listOf(DrawingPrimitive.Range(y1, y2))
         } else {
             listOf(DrawingPrimitive.Point((x * k + b).roundToInt()))
