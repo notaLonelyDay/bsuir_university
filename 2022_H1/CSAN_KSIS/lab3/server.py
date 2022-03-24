@@ -13,7 +13,7 @@ def posix_to_rfc868(time):
 
 if __name__ == '__main__':
     ip = sys.argv[1]
-    port = getOrDefault(sys.argv, 2, 3774)
+    port = int(getOrDefault(sys.argv, 2, '3774'))
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.bind((ip, port))

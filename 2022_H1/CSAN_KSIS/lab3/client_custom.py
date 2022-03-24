@@ -28,8 +28,8 @@ tz_alt = 'US/Eastern'  # alternate timezone
 prog_title = 'RFC 868 Time'  # program title
 time_serv = '132.163.96.5'  # resolves to 129.6.15.28
 port = 37
-# time_serv = '127.0.0.1'  # resolves to 129.6.15.28
-# port = 3775
+time_serv = '127.0.0.1'  # resolves to 129.6.15.28
+port = 4444
 
 
 def query_Time():  # query time server, returns timekeeper object
