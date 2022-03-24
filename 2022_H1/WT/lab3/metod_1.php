@@ -67,7 +67,7 @@ function searchRecord($name)
     $file = fopen("companies.csv", "r");
     $found = false;
     $params = explode(",", fgets($file));
-    echoTableLine($params, "tr");
+    echoTableLine($params, "th");
     while (($currentLine = fgets($file)) != false) {
         $params = explode(",", $currentLine);
         if (strstr($params[0], $name)) {
