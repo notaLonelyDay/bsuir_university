@@ -125,6 +125,7 @@ class MainWindow(QWidget, Ui_Form):
 
         if not self.file:
             self.showError("No file selected")
+            return
 
         d = QFileDialog()
         d.setObjectName("encrypted.enc")
@@ -151,6 +152,12 @@ class MainWindow(QWidget, Ui_Form):
 
     def showError(self, error):
         print(error)
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText("Error")
+        msg.setInformativeText(error)
+        msg.setWindowTitle("Error")
+        msg.exec_()
 
 
 if __name__ == '__main__':
