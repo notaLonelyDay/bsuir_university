@@ -82,17 +82,17 @@ class MainWindow(QWidget, Ui_Form):
                 d = int(d)
             except ValueError:
                 self.showError("P, D and Q must be integers")
-                return
+                return False
 
             if not isPrime(p) or not isPrime(q):
                 self.showError("P and Q must be prime")
-                return
+                return False
             if not math.gcd((p - 1) * (q - 1), d):
                 self.showError("D must be co-prime to (p-1)*(q-1)")
-                return
+                return False
             if p * q not in range(255, 65025):
                 self.showError("p*q must be in range (255, 65025)")
-                return
+                return False
 
             r = p * q
             self.rEdit.setText(str(r))
@@ -102,7 +102,7 @@ class MainWindow(QWidget, Ui_Form):
             self.q = q
             self.d = d
 
-            # generateKey(p, q, d)
+        return True
 
     def validateEncryptionData(self):
         d = self.dEdit.text()
@@ -112,15 +112,18 @@ class MainWindow(QWidget, Ui_Form):
             d = int(d)
         except ValueError:
             self.showError("R, D must be integers")
-            return
+            return False
         self.r = r
         self.d = d
+        return True
 
     def encrypt(self):
         if self.isModeEncrypt():
-            self.validateData()
+            if not self.validateData():
+                return
         else:
-            self.validateEncryptionData()
+            if not self.validateEncryptionData():
+                return
         key = generateKey(self.p, self.q, self.d) if self.isModeEncrypt() else self.d
         text = self.fromEdit.toPlainText().strip()
         a = [int(i) for i in text.split()]
@@ -136,6 +139,8 @@ class MainWindow(QWidget, Ui_Form):
         d.setObjectName("encrypted.enc")
         d.show()
         file = d.getSaveFileName()[0]
+        if not file:
+            return
         with open(self.file, "rb") as fr:
             with open(file, "wb") as fw:
                 bytes = fr.read(256)
