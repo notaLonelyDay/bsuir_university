@@ -29,6 +29,8 @@ def generateKey(p, q, e):
     r = p * q
     f = (p - 1) * (q - 1)
     d, x, y = gcd_extended(f, e)
+    if y < 0:
+        y += f
     # print(d, x, y)
     return y
 
@@ -67,6 +69,7 @@ class MainWindow(QWidget, Ui_Form):
 
         except Exception as e:
             self.showError("Can't open file")
+            return
 
     def validateData(self):
         if self.isModeEncrypt():
@@ -86,6 +89,7 @@ class MainWindow(QWidget, Ui_Form):
                 return
             if not math.gcd((p - 1) * (q - 1), d):
                 self.showError("D must be co-prime to (p-1)*(q-1)")
+                return
             if p * q not in range(255, 65025):
                 self.showError("p*q must be in range (255, 65025)")
                 return
