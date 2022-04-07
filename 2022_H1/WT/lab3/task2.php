@@ -66,7 +66,6 @@ if(isset($_POST['submit'])) {
     if( strpos(file_get_contents("companies.csv"),$name) !== false) {
         $error .= '<p><label class= "text-danger" >There is already a company with this name in the data base</label></p>';
     }
-    //echo 'bebra';
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
@@ -92,11 +91,6 @@ if(isset($_POST['submit'])) {
 
 
         fputcsv($f, $form_data);
-        /*
-        foreach ($_POST as $row) {
-            fputcsv($f, $row);
-        }
-        */
         $error = '';
         $name = '';
         $email = '';
