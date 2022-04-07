@@ -41,6 +41,7 @@ class MainWindow(QWidget, Ui_Form):
         self.chooseFileButton.clicked.connect(self.loadFile)
         self.applyButton.clicked.connect(self.validateData)
         self.encryptButton.clicked.connect(self.encrypt)
+        self.decryptButton.clicked.connect(self.encrypt)
 
     def isModeEncrypt(self):
         return self.modeComboBox.currentIndex() == 0
