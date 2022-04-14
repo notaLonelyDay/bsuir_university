@@ -59,7 +59,7 @@ function addRecord()
 
     file_put_contents("companies.csv", strval($name) . "," . $adress . "," . $phone . "," . $email . "\n", FILE_APPEND);
 
-    header('Location: /lab3/metod_1.php', true, 301);
+    header('Location: /lab3/index.php', true, 301);
 }
 
 function searchRecord($name)
