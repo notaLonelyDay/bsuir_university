@@ -30,9 +30,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     echo "</table>";
 }
 
-function preprocessMessage($message){
+function preprocessMessage($message)
+{
 
-    return "";
+    $matches = [];
+    preg_match_all('/https?:\/\/(www\.)?([-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6})\b([-a-zA-Z0-9()@:%_\+.~#?&\/\/=]*)/', $message, $matches);
+//    var_dump($message);
+//    var_dump($matches[0]);
+    $toReplace = array_filter($matches[0], function ($k) {
+        return !preg_match('/https?:\/\/(www\.)?(bsuir\.by)\b([-a-zA-Z0-9()@:%_\+.~#?&\/=]*)/', $k);
+    });
+//    var_dump($toReplace);
+    $ans = $message;
+    foreach ($toReplace as $value) {
+        $ans = str_replace($value, "#THIS_URL_IS_NOT_ALLOWED", $ans);
+    }
+    return $ans;
 }
 
 function addRecord()
