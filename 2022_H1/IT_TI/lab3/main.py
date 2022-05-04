@@ -87,11 +87,15 @@ class MainWindow(QWidget, Ui_Form):
             if not isPrime(p) or not isPrime(q):
                 self.showError("P and Q must be prime")
                 return False
-            if not math.gcd((p - 1) * (q - 1), d):
+            if math.gcd((p - 1) * (q - 1), d) != 1:
                 self.showError("D must be co-prime to (p-1)*(q-1)")
                 return False
             if p * q not in range(255, 65025):
                 self.showError("p*q must be in range (255, 65025)")
+                return False
+
+            if d <= 1:
+                self.showError("D must be greater than 1")
                 return False
 
             r = p * q
