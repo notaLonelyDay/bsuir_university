@@ -39,7 +39,7 @@ class GetDB
         $sqlBooks = "SELECT * FROM BookInfo";
         if ($res = $this->connect->query($sqlBooks)) {
             foreach ($res as $row) {
-                echo "<table class='table_dark'>";
+                echo "<table class='info'>";
                 echo "<tr> 
                       <th>Title</th> 
                       <th>Author</th> 
@@ -57,7 +57,7 @@ class GetDB
                 $reviews = $this->connect->query($sqlReviews)->fetch_all();
 //                var_dump($reviews);
                 if(count($reviews) > 0) {
-                    echo "<table class='table_dark'>";
+                    echo "<table class='review'>";
                     echo "<tr> 
                       <th>Author</th> 
                       <th>Rating</th> 
