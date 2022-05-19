@@ -4,8 +4,9 @@ $arrContextOptions=array(
         "verify_peer"=>false,
         "verify_peer_name"=>false,
     ),
-);  
-$ch = curl_init('https://snipp.ru/php/curl#link-get-zapros');
+);
+$main_rul = "https://snipp.ru/tags/svg";
+$ch = curl_init($main_rul);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_HEADER, false);
@@ -19,7 +20,7 @@ $external = true;
  
 preg_match_all('/<img.*?src=["\'](.*?)["\'].*?>/i', $html, $images, PREG_SET_ORDER);
  
-$url = parse_url("https://snipp.ru/php/curl#link-get-zapros");
+$url = parse_url($main_rul);
 $path = rtrim($path, '/');
  
 foreach ($images as $image) { 
