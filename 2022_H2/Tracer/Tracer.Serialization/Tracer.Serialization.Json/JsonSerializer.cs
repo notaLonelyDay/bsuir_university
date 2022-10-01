@@ -8,7 +8,7 @@ public class JsonSerializer : ITraceResultSerializer
 {
     public void Serialize(Core.TraceResult traceResult, Stream to)
     {
-        var res = System.Text.Json.JsonSerializer.Serialize(traceResult);
+        var res = System.Text.Json.JsonSerializer.Serialize(new TraceResult(traceResult));
         to.Write(Encoding.Default.GetBytes(res));
     }
 

@@ -19,10 +19,16 @@ public class Tracer : ITracer
         public List<MethodTrace> Methods { get; } = new();
     }
 
-    private static List<MethodInfo> ConvertMethods(List<MethodTrace> methods)
+    private static List<MethodInfo> MapMethods(List<MethodTrace> methods)
     {
-        return methods.Select(method => new MethodInfo(method.Name, method.Class, method.Stopwatch.ElapsedMilliseconds,
-            ConvertMethods(method.Methods))).ToList();
+        return methods.Select(method =>
+            new MethodInfo(
+                method.Name,
+                method.Class,
+                method.Stopwatch.ElapsedMilliseconds,
+                MapMethods(method.Methods)
+            )
+        ).ToList();
     }
 
     public void StartTrace()
@@ -64,8 +70,16 @@ public class Tracer : ITracer
         return new TraceResult(_traceResult.Select(info =>
             new ThreadInfo(
                 info.Value.Methods.Select(m =>
-                        new MethodInfo(m.Name, m.Class, m.Stopwatch.ElapsedMilliseconds, ConvertMethods(m.Methods)))
-                    .ToList(), info.Key)).ToList());
+                    new MethodInfo(
+                        m.Name,
+                        m.Class,
+                        m.Stopwatch.ElapsedMilliseconds,
+                        MapMethods(m.Methods)
+                    )
+                ).ToList(),
+                info.Key
+            )
+        ).ToList());
     }
 
     private class RunningThreadInfo
