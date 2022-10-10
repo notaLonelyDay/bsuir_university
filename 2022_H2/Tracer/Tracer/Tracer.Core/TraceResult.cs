@@ -6,5 +6,6 @@ public class TraceResult
     {
         Threads = methodInfos;
     }
+
     public IReadOnlyList<ThreadInfo> Threads { get; }
 }

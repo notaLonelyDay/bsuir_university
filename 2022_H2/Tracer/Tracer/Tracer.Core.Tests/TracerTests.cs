@@ -56,10 +56,7 @@ public class Tests
 
     private static int GetMillisecondsValue(string ms)
     {
-        if (!int.TryParse(ms[..^2], out var value))
-        {
-            throw new Exception($"Invalid milliseconds value: {ms}");
-        }
+        if (!int.TryParse(ms[..^2], out var value)) throw new Exception($"Invalid milliseconds value: {ms}");
 
         return value;
     }
@@ -141,31 +138,26 @@ public class Tests
         var boo = new Bar(tracer);
         var threads = new List<Thread>();
         var threadCount = 200;
-        for (int i = 0; i < threadCount; i++)
+        for (var i = 0; i < threadCount; i++)
         {
             var newThread = new Thread(boo.InnerMethod);
             newThread.Start();
             threads.Add(newThread);
         }
 
-        foreach (var thread in threads)
-        {
-            thread.Join();
-        }
+        foreach (var thread in threads) thread.Join();
 
         var result = tracer.GetTraceResult();
         Console.WriteLine(result.Threads.Count);
-        for (int i = 0; i < threadCount; i++)
+        for (var i = 0; i < threadCount; i++)
+        for (var j = 0; j < threadCount; j++)
         {
-            for (int j = 0; j < threadCount; j++)
-            {
-                Assert.That(result.Threads[i].Methods[0].Class, Is.EqualTo(result.Threads[j].Methods[0].Class));
-                Assert.That(result.Threads[i].Methods[0].Name, Is.EqualTo(result.Threads[j].Methods[0].Name));
-                var timeDiff = Math.Abs(
-                    result.Threads[i].Methods[0].Milliseconds - result.Threads[j].Methods[0].Milliseconds
-                );
-                Assert.That(timeDiff, Is.LessThan(100L));
-            }
+            Assert.That(result.Threads[i].Methods[0].Class, Is.EqualTo(result.Threads[j].Methods[0].Class));
+            Assert.That(result.Threads[i].Methods[0].Name, Is.EqualTo(result.Threads[j].Methods[0].Name));
+            var timeDiff = Math.Abs(
+                result.Threads[i].Methods[0].Milliseconds - result.Threads[j].Methods[0].Milliseconds
+            );
+            Assert.That(timeDiff, Is.LessThan(100L));
         }
     }
 }

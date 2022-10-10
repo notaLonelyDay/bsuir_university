@@ -9,6 +9,7 @@ public class ThreadInfo
     public ThreadInfo()
     {
     }
+
     public ThreadInfo(Core.ThreadInfo threadInfo)
     {
         Id = threadInfo.Id;
@@ -22,6 +23,5 @@ public class ThreadInfo
     [XmlAttribute(Form = XmlSchemaForm.Unqualified)]
     public string Time { get; set; } = "";
 
-    [XmlArray()]
-    public List<MethodInfo> Methods { get; } = new();
+    [XmlArray()] public List<MethodInfo> Methods { get; } = new();
 }

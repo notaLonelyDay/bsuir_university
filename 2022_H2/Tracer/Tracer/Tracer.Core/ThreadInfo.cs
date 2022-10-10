@@ -8,7 +8,7 @@ public class ThreadInfo
         Milliseconds = methods.Sum(method => method.Milliseconds);
         Id = id;
     }
-    
+
     public int Id { get; }
     public long Milliseconds { get; }
     public IReadOnlyList<MethodInfo> Methods { get; }

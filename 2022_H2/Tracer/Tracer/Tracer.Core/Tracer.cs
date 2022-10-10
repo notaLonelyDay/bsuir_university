@@ -42,20 +42,13 @@ public class Tracer : ITracer
         var className = method.DeclaringType!.Name;
         var info = new MethodTrace(methodName, className);
 
-        if (!_traceResult.TryGetValue(threadId, out _))
-        {
-            _traceResult[threadId] = new RunningThreadInfo();
-        }
+        if (!_traceResult.TryGetValue(threadId, out _)) _traceResult[threadId] = new RunningThreadInfo();
 
         // Place method info into right place
         if (_traceResult[threadId].RunningMethods.Count == 0)
-        {
             _traceResult[threadId].Methods.Add(info);
-        }
         else
-        {
             _traceResult[threadId].RunningMethods.Peek().Methods.Add(info);
-        }
 
         _traceResult[threadId].RunningMethods.Push(info);
 

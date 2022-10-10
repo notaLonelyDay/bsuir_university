@@ -9,7 +9,7 @@ public class MethodInfo
         Time = $"{methodInfo.Milliseconds}ms";
         Methods = new List<MethodInfo>(methodInfo.Methods.Select(m => new MethodInfo(m)));
     }
-    
+
     public string Name { get; }
     public string Class { get; }
     public string Time { get; }

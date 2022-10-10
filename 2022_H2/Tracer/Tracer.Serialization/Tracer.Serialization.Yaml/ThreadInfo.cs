@@ -8,7 +8,7 @@ public class ThreadInfo
         Time = $"{threadInfo.Milliseconds}ms";
         Methods = new List<MethodInfo>(threadInfo.Methods.Select(m => new MethodInfo(m)));
     }
-    
+
     public int Id { get; }
     public string Time { get; }
     public IReadOnlyList<MethodInfo> Methods { get; }

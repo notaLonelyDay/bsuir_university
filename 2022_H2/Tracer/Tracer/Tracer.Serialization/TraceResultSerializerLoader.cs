@@ -17,10 +17,7 @@ public static class TraceResultSerializerLoader
                 if (!typeof(ITraceResultSerializer).IsAssignableFrom(type))
                     continue;
                 var serializer = (ITraceResultSerializer?)Activator.CreateInstance(type);
-                if (serializer == null)
-                {
-                    throw new Exception($"Serializer {type} not created");
-                }
+                if (serializer == null) throw new Exception($"Serializer {type} not created");
 
                 serializers.Add(serializer);
             }
