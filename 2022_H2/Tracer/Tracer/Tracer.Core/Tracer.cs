@@ -42,7 +42,11 @@ public class Tracer : ITracer
         var className = method.DeclaringType!.Name;
         var info = new MethodTrace(methodName, className);
 
-        _traceResult.GetOrAdd(threadId, _ => new RunningThreadInfo());
+        if (!_traceResult.TryGetValue(threadId, out _))
+        {
+            _traceResult[threadId] = new RunningThreadInfo();
+        }
+
         // Place method info into right place
         if (_traceResult[threadId].RunningMethods.Count == 0)
         {
@@ -88,5 +92,5 @@ public class Tracer : ITracer
         public Stack<MethodTrace> RunningMethods { get; } = new();
     }
 
-    private readonly ConcurrentDictionary<int, RunningThreadInfo> _traceResult = new();
+    private readonly ConcurrentDictionary<int, RunningThreadInfo?> _traceResult = new();
 }

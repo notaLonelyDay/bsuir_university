@@ -63,7 +63,7 @@ public class Tests
 
         return value;
     }
-    
+
     [Test]
     public void SingleThreadTest()
     {
@@ -71,7 +71,7 @@ public class Tests
         var boo = new Bar(tracer);
         boo.InnerMethod();
         var result = tracer.GetTraceResult();
-        
+
         Assert.That(result.Threads, Has.Count.EqualTo(1));
         Assert.That(result.Threads[0].Methods, Has.Count.EqualTo(1));
         Assert.Multiple(() =>
@@ -98,7 +98,7 @@ public class Tests
         foo.MethodWithNoNested();
         foo.MyMethod();
         var result = tracer.GetTraceResult();
-        
+
         Assert.That(result.Threads, Has.Count.EqualTo(2));
         Assert.That(result.Threads[0].Methods, Has.Count.EqualTo(1));
         Assert.Multiple(() =>
@@ -115,7 +115,7 @@ public class Tests
             Assert.That(result.Threads[0].Methods[0].Methods[0].Milliseconds, Is.GreaterThanOrEqualTo(200));
         });
         Assert.That(result.Threads[0].Methods[0].Methods[0].Methods, Has.Count.EqualTo(0));
-        
+
         Assert.That(result.Threads[1].Methods, Has.Count.EqualTo(2));
         Assert.That(result.Threads[1].Methods[0].Methods, Has.Count.EqualTo(0));
         Assert.Multiple(() =>
@@ -124,7 +124,7 @@ public class Tests
             Assert.That(result.Threads[1].Methods[0].Class, Is.EqualTo("Foo"));
             Assert.That(result.Threads[1].Methods[0].Milliseconds, Is.GreaterThanOrEqualTo(105));
         });
-        
+
         Assert.That(result.Threads[1].Methods[1].Methods, Has.Count.EqualTo(0));
         Assert.Multiple(() =>
         {
@@ -132,5 +132,40 @@ public class Tests
             Assert.That(result.Threads[1].Methods[1].Class, Is.EqualTo("Foo"));
             Assert.That(result.Threads[1].Methods[1].Milliseconds, Is.GreaterThanOrEqualTo(300));
         });
+    }
+
+    [Test]
+    public void RealMultiThreadedTest()
+    {
+        var tracer = new Tracer();
+        var boo = new Bar(tracer);
+        var threads = new List<Thread>();
+        var threadCount = 200;
+        for (int i = 0; i < threadCount; i++)
+        {
+            var newThread = new Thread(boo.InnerMethod);
+            newThread.Start();
+            threads.Add(newThread);
+        }
+
+        foreach (var thread in threads)
+        {
+            thread.Join();
+        }
+
+        var result = tracer.GetTraceResult();
+        Console.WriteLine(result.Threads.Count);
+        for (int i = 0; i < threadCount; i++)
+        {
+            for (int j = 0; j < threadCount; j++)
+            {
+                Assert.That(result.Threads[i].Methods[0].Class, Is.EqualTo(result.Threads[j].Methods[0].Class));
+                Assert.That(result.Threads[i].Methods[0].Name, Is.EqualTo(result.Threads[j].Methods[0].Name));
+                var timeDiff = Math.Abs(
+                    result.Threads[i].Methods[0].Milliseconds - result.Threads[j].Methods[0].Milliseconds
+                );
+                Assert.That(timeDiff, Is.LessThan(100L));
+            }
+        }
     }
 }

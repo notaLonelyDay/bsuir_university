@@ -6,6 +6,6 @@ public interface ITraceResultSerializer
 {
     void Serialize(TraceResult traceResult, Stream to);
 
-    // Serializer's extension, e.g. "xml", "json"
+    // f.e. "xml", "json", "yaml"
     public string Format { get; }
 }
