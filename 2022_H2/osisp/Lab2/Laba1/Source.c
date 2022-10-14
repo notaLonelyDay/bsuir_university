@@ -18,25 +18,25 @@ int offset = 13;
 int rectHeight;
 int rectWidth;
 
-enum WorkingMode {
+enum Modes {
 	Auto, Manual
 };
-enum WorkingMode workingMode = Manual;
+enum Modes wMode = Manual;
 
-enum TimerStatus {
+enum TStatus {
 	Timer, KernelTimer
 };
-enum TimerStatus currentTimer = Timer;
+enum TStatus curTimer = Timer;
 HANDLE kernelTimer;
 
 HBRUSH CurrentBackColor;
-HBRUSH BlueBR;
+HBRUSH PinkBR;
 HBRUSH GrayBR;
 
 int durationX = 10;
 int durationY = 10;
 
-void AutomaticMode(HWND hWnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+void autoMode(HWND hWnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {
 	int newXPos = rectCoordinates.x + durationX;
 	int newYPos = rectCoordinates.y + durationY;
@@ -56,16 +56,16 @@ HANDLE threadId;
 
 void ChangeMode(HWND hWnd)
 {
-	if (workingMode == Manual)
+	if (wMode == Manual)
 	{
-		SetTimer(hWnd, 0, 10, AutomaticMode);
+		SetTimer(hWnd, 0, 10, autoMode);
 
-		currentTimer = Timer;
-		workingMode = Auto;
+		curTimer = Timer;
+		wMode = Auto;
 	}
-	else if (workingMode == Auto)
+	else if (wMode == Auto)
 	{
-		if (currentTimer == Timer)
+		if (curTimer == Timer)
 			KillTimer(hWnd, 0);
 		else
 		{
@@ -74,7 +74,7 @@ void ChangeMode(HWND hWnd)
 		}
 
 		CurrentBackColor = GrayBR;
-		workingMode = Manual;
+		wMode = Manual;
 	}
 }
 
@@ -102,33 +102,33 @@ DWORD WINAPI TimerThread(LPVOID lpParam)
 	return 0;
 }
 
-void ChangeTypeOfTimer(HWND hWnd)
+void setMode(HWND hWnd)
 {
-	if (workingMode != Auto)
+	if (wMode != Auto)
 		return;
 
-	if (currentTimer == Timer)
+	if (curTimer == Timer)
 	{
 		KillTimer(hWnd, 0);
 		
 		threadId = CreateThread(NULL, 0, TimerThread, hWnd, 0, 0);
 
-		CurrentBackColor = BlueBR;
-		currentTimer = KernelTimer;
+		CurrentBackColor = PinkBR;
+		curTimer = KernelTimer;
 	}
 	else
 	{		
 		CancelWaitableTimer(kernelTimer);
 		WaitForSingleObject(threadId, INFINITE);
 
-		SetTimer(hWnd, 0, 10, AutomaticMode);
+		SetTimer(hWnd, 0, 10, autoMode);
 
 		CurrentBackColor = GrayBR;
-		currentTimer = Timer;
+		curTimer = Timer;
 	}
 }
 
-void InitializeBackBuffer(HWND hWnd, int width, int height)
+void initBuf(HWND hWnd, int width, int height)
 {
 	HDC hdcWindow;
 	hdcWindow = GetDC(hWnd);
@@ -139,7 +139,7 @@ void InitializeBackBuffer(HWND hWnd, int width, int height)
 	ReleaseDC(hWnd, hdcWindow);	
 }
 
-void FinalizeBackBuffer()
+void finBuf()
 {
 	if (hdcBack)
 	{
@@ -149,19 +149,19 @@ void FinalizeBackBuffer()
 	}
 }
 
-BOOL OnSizeChanged(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+BOOL sizeChanged(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	GetClientRect(hWnd, &clientRect);
-	FinalizeBackBuffer();
-	InitializeBackBuffer(hWnd, clientRect.right, clientRect.bottom);	
+	finBuf();
+	initBuf(hWnd, clientRect.right, clientRect.bottom);	
 	InvalidateRect(hWnd, NULL, FALSE);
 }
 
-BOOL OnWindowPaint(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+BOOL onPaint(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	FillRect(hdcBack, &clientRect, CurrentBackColor);
 
-	PaintRectWithPicture(hWnd, hdcBack);
+	paintPic(hWnd, hdcBack);
 
 	PAINTSTRUCT ps;
 	HDC hdc = BeginPaint(hWnd, &ps);
@@ -169,7 +169,7 @@ BOOL OnWindowPaint(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	EndPaint(hWnd, &ps);
 }
 
-BOOL PaintRectWithPicture(HWND hWnd, HDC hdc)
+BOOL paintPic(HWND hWnd, HDC hdc)
 {
 	hBmp = LoadImage(NULL, L"C:\\Users\\user\\Desktop\\anime.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 	GetObject(hBmp, sizeof(bitmap), &bitmap);
@@ -188,7 +188,7 @@ BOOL PaintRectWithPicture(HWND hWnd, HDC hdc)
 	DeleteDC(hMemDC);
 }
 
-BOOL LeftMouseButtonPressed(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+BOOL leftClicked(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	int x = LOWORD(lParam);
 	int y = HIWORD(lParam);
@@ -201,7 +201,7 @@ BOOL LeftMouseButtonPressed(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		mousePressed = 1;
 }
 
-BOOL MouseMove(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+BOOL mouseMove(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	if (!mousePressed)
 		return;
@@ -227,12 +227,12 @@ BOOL MouseMove(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	InvalidateRect(hWnd, NULL, FALSE);
 }
 
-BOOL LeftMouseButtonUp(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+BOOL leftUp(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	mousePressed = 0;
 }
 
-BOOL MouseWheel(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+BOOL mouseWheel(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	if (mousePressed)
 		return;
@@ -254,7 +254,7 @@ BOOL MouseWheel(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	InvalidateRect(hWnd, NULL, FALSE);
 }
 
-BOOL KeyDown(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+BOOL keyDown(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	if (mousePressed)
 		return;
@@ -321,7 +321,7 @@ BOOL KeyDown(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		ChangeMode(hWnd);
 		break;
 	case VK_CONTROL:
-		ChangeTypeOfTimer(hWnd);
+		setMode(hWnd);
 		break;
 	}
 
@@ -330,8 +330,8 @@ BOOL KeyDown(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 BOOL OnWindowCreate(HWND hWnd)
 {
-	BlueBR = CreateSolidBrush(RGB(0, 64, 255));
-	GrayBR = CreateSolidBrush(RGB(128, 128, 128));
+	PinkBR = CreateSolidBrush(RGB(200, 100, 100));
+	GrayBR = CreateSolidBrush(RGB(255, 255, 255));
 
 	CurrentBackColor = GrayBR;
 
@@ -346,33 +346,33 @@ LRESULT CALLBACK MainWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		OnWindowCreate(hWnd);
 		return 0;
 	case WM_DESTROY:
-		FinalizeBackBuffer();
+		finBuf();
 		CloseHandle(kernelTimer);
 		PostQuitMessage(0);
 		return 0;
 	case WM_SIZE:
-		OnSizeChanged(hWnd, uMsg, wParam, lParam);
+		sizeChanged(hWnd, uMsg, wParam, lParam);
 		return 0;
 	case WM_PAINT:
-		OnWindowPaint(hWnd, uMsg, wParam, lParam);
+		onPaint(hWnd, uMsg, wParam, lParam);
 		return 0;
 	case WM_LBUTTONDOWN:
-		LeftMouseButtonPressed(hWnd, uMsg, wParam, lParam);
+		leftClicked(hWnd, uMsg, wParam, lParam);
 		return 0;
 	case WM_MOUSEMOVE:
-		MouseMove(hWnd, uMsg, wParam, lParam);
+		mouseMove(hWnd, uMsg, wParam, lParam);
 		return 0;
 	case WM_LBUTTONUP:
-		LeftMouseButtonUp(hWnd, uMsg, wParam, lParam);
+		leftUp(hWnd, uMsg, wParam, lParam);
 		return 0;
 	case WM_MOUSEWHEEL:
-		MouseWheel(hWnd, uMsg, wParam, lParam);
+		mouseWheel(hWnd, uMsg, wParam, lParam);
 		return 0;
 	case WM_KEYDOWN:
-		KeyDown(hWnd, uMsg, wParam, lParam);
+		keyDown(hWnd, uMsg, wParam, lParam);
 		return 0;
 	case WM_USER:
-		AutomaticMode(hWnd, 0, 0, 0);
+		autoMode(hWnd, 0, 0, 0);
 		return 0;
 	}
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
