@@ -1,0 +1,15 @@
+javac -d src/lab1/task10 ./src/lab1/task9/*
+
+java -classpath ./task10 lab1.t9.Main
+enter amount of balls:
+8
+RED 452.0
+BLACK 677.0
+BLUE 647.0
+RED 486.0
+BLUE 517.0
+BLACK 98.0
+RED 590.0
+BLACK 70.0
+count blue balls 2
+total weight of balls 3537.0
