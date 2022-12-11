@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using dir_scanner;
+using dir_scanner.entity;
 using dir_scanner.util;
 using FluentAssertions;
 using Xunit;
@@ -21,8 +22,7 @@ public class ScannerTests {
 
         result.Should().NotBeNull();
         testOutputHelper.WriteLine(result.files.ToString());
-        // result.Root.Directory.FullPath.Should().BeEquivalentTo(path);
-        // result.Root.Directory.Name.Should().BeEquivalentTo(new DirectoryInfo(path).Name);
+        result.absolutePath.Should().BeEquivalentTo(curDir);
     }
 
     [Fact]
@@ -45,13 +45,15 @@ public class ScannerTests {
 
     [Fact]
     public void ShouldCancelExecution() {
-        // var curDir = AppDomain.CurrentDomain.BaseDirectory;
-        // var cancelledScanner = new DirScannerImpl();
+        var scanner = new DirScannerImpl();
 
-        // Directory scannerResult = new Directory("");
-        // var task = Task.Run(() => scannerResult = cancelledScanner.startScan(path));
-        // cancelledScanner.cancel();
-        // Thread.Sleep(3000);
-        // scannerResult.isSizeFinal.Should().BeFalse();
+
+        dir_scanner.entity.Directory? result = null;
+        var task = Task.Run(() =>
+            result = scanner.startScan(@"E:\")
+        );
+        scanner.cancel();
+        Thread.Sleep(200);
+        task.Result.isSizeFinal.Should().BeFalse();
     }
 }
