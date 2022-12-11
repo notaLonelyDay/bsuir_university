@@ -10,8 +10,9 @@ public class DirectoryVO : FileSystemVO {
         SizeInPercents = sizeInPercents;
     }
 
+    public ObservableCollection<FileSystemVO> Directories { get; }
+
     public string Name { get; }
     public string Size { get; }
     public float SizeInPercents { get; }
-    public ObservableCollection<FileSystemVO> Directories { get; }
 }

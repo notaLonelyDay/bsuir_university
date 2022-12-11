@@ -1,5 +1,5 @@
-﻿namespace dir_scanner.entity; 
+﻿namespace dir_scanner.entity;
 
-public class File: StorageItem {
+public class File : StorageItem {
     public File(string absolutePath) : base(absolutePath) { }
 }

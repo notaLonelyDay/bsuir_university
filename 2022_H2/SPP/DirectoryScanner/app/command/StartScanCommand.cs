@@ -9,8 +9,8 @@ using Ookii.Dialogs.Wpf;
 namespace DirectoryScanner.command;
 
 public class StartScannerCommand : ICommand {
-    private readonly DirScanner _scanner;
     private readonly Action<FileSystemVO> _action;
+    private readonly DirScanner _scanner;
 
     public StartScannerCommand(DirScanner scanner, Action<FileSystemVO> action) {
         _scanner = scanner;
@@ -28,11 +28,10 @@ public class StartScannerCommand : ICommand {
 
     public void Execute(object? parameter) {
         var dialog = new VistaFolderBrowserDialog();
-        if (dialog.ShowDialog().GetValueOrDefault()) {
+        if (dialog.ShowDialog().GetValueOrDefault())
             Task.Run(() => {
                 var result = _scanner.startScan(dialog.SelectedPath, 8);
                 _action.Invoke(ScannerUtil.ResultToVO(result));
             });
-        }
     }
 }

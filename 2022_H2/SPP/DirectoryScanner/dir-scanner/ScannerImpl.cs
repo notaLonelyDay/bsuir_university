@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using dir_scanner.entity;
 using dir_scanner.util;
 using Directory = dir_scanner.entity.Directory;
 using File = dir_scanner.entity.File;
@@ -8,7 +7,7 @@ namespace dir_scanner;
 
 public class DirScannerImpl : DirScanner {
     private CancellationTokenSource? cancellationTokenSource;
-    private ConcurrentQueue<Directory> queue = new ConcurrentQueue<Directory>();
+    private readonly ConcurrentQueue<Directory> queue = new();
 
 
     public Directory startScan(string path, int threadCount = 8) {
@@ -17,7 +16,8 @@ public class DirScannerImpl : DirScanner {
         cancellationTokenSource = new CancellationTokenSource();
         var root = new Directory(path);
         queue.Enqueue(root);
-        while ((!queue.IsEmpty || semaphore.CurrentCount != threadCount) && !cancellationTokenSource.IsCancellationRequested) {
+        while ((!queue.IsEmpty || semaphore.CurrentCount != threadCount) &&
+               !cancellationTokenSource.IsCancellationRequested) {
             Directory? item;
             queue.TryDequeue(out item);
             if (item != null) {
@@ -31,6 +31,11 @@ public class DirScannerImpl : DirScanner {
 
         calcSizes(root);
         return root;
+    }
+
+    public void cancel() {
+        cancellationTokenSource?.Cancel();
+        queue.Clear();
     }
 
     private void throwIfInvalidParams(string path, int threadCount) {
@@ -81,12 +86,11 @@ public class DirScannerImpl : DirScanner {
         }
         catch (OperationCanceledException e) {
             Console.WriteLine("Cancelled");
-            return;
         }
     }
 
     private void calcSizes(Directory dir) {
-        bool isSizeFinal = true;
+        var isSizeFinal = true;
 
         // update from sub dirs
         foreach (var subDir in dir.subDirs) {
@@ -102,10 +106,5 @@ public class DirScannerImpl : DirScanner {
         }
 
         dir.isSizeFinal = isSizeFinal;
-    }
-
-    public void cancel() {
-        cancellationTokenSource?.Cancel();
-        queue.Clear();
     }
 }

@@ -8,11 +8,14 @@ using DirectoryScanner.vo;
 namespace DirectoryScanner.vm;
 
 public class MainViewModel : INotifyPropertyChanged {
-    public event PropertyChangedEventHandler? PropertyChanged;
-    private ICommand? _startScanCommand;
     private ICommand? _cancelScanCommand;
-    private DirScanner _scanner;
-    private ObservableCollection<FileSystemVO> _scanResult = new ObservableCollection<FileSystemVO>();
+    private readonly DirScanner _scanner;
+    private ObservableCollection<FileSystemVO> _scanResult = new();
+    private ICommand? _startScanCommand;
+
+    public MainViewModel() {
+        _scanner = new DirScannerImpl();
+    }
 
     public ObservableCollection<FileSystemVO> scanResult {
         get => _scanResult;
@@ -33,9 +36,7 @@ public class MainViewModel : INotifyPropertyChanged {
         get { return _cancelScanCommand ??= new CancelScannerCommand(_scanner); }
     }
 
-    public MainViewModel() {
-        _scanner = new DirScannerImpl();
-    }
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     protected void notify(string propName) {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));

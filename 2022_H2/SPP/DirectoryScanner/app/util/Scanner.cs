@@ -30,16 +30,14 @@ public static class ScannerUtil {
 
     private static string formatSize(StorageItem item) {
         var sizeStr = toHumanSize(item.size);
-        if (!item.isSizeFinal) {
-            sizeStr += "...";
-        }
+        if (!item.isSizeFinal) sizeStr += "...";
 
         return sizeStr;
     }
 
     private static string toHumanSize(long size) {
         string[] sizes = { "B", "KB", "MB", "GB", "TB" };
-        int order = 0;
+        var order = 0;
         while (size >= 1024 && order < sizes.Length - 1) {
             order++;
             size = size / 1024;

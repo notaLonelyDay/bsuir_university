@@ -5,7 +5,6 @@ using dir_scanner.util;
 using FluentAssertions;
 using Xunit;
 using Xunit.Abstractions;
-using Directory = dir_scanner.entity.Directory;
 
 public class ScannerTests {
     private readonly ITestOutputHelper testOutputHelper;

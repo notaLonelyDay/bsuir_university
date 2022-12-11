@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using dir_scanner;
-using DirectoryScanner.util;
-using DirectoryScanner.vo;
-using Directory = dir_scanner.entity.Directory;
 
 namespace DirectoryScanner.command;
 
