@@ -42,18 +42,4 @@ public class ScannerTests {
         Action result = () => scanner.startScan(curDir, -3);
         result.Should().Throw<InvalidThreadCountException>();
     }
-
-    [Fact]
-    public void ShouldCancelExecution() {
-        var scanner = new DirScannerImpl();
-
-
-        dir_scanner.entity.Directory? result = null;
-        var task = Task.Run(() =>
-            result = scanner.startScan(@"E:\")
-        );
-        scanner.cancel();
-        Thread.Sleep(200);
-        task.Result.isSizeFinal.Should().BeFalse();
-    }
 }
