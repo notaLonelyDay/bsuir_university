@@ -19,4 +19,14 @@
       <ProjectReference Include="..\core\core.csproj" />
     </ItemGroup>
 
+
+    <ItemGroup>
+        <Compile Remove="output\**" />
+        <EmbeddedResource Remove="output\**" />
+        <None Remove="output\**" />
+        <Compile Remove="input\**" />
+        <EmbeddedResource Remove="input\**" />
+        <None Remove="input\**" />
+    </ItemGroup>
+
 </Project>
