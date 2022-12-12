@@ -18,8 +18,12 @@ namespace Lepesh.Lepesh
         {
             class LepeshClass
             {
-                [Fact]
                 public void LepeshMethod()
+                {
+                    int a = 5;
+                }
+
+private void LepeshMethodPriv()
                 {
                     int a = 5;
                 }
@@ -29,6 +33,6 @@ namespace Lepesh.Lepesh
     [Fact]
     public void ShouldGenerateTestFile() {
         testOutputHelper.WriteLine(TestGenerator.shared.Generate(DefaultFile));
-        // Assert.True(false);
+        Assert.True(false);
     }
 }

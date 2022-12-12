@@ -1,66 +1,101 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Xunit;
 
 namespace core;
 
-class CustomCSharpSyntaxRewriter : CSharpSyntaxRewriter
-{
-    public List<UsingDirectiveSyntax> usings = new();
-    public List<MemberDeclarationSyntax> members = new();
+class CustomCSharpSyntaxRewriter : CSharpSyntaxRewriter {
+    public override SyntaxNode? VisitNamespaceDeclaration(NamespaceDeclarationSyntax node) {
+        var namespaceNode = (NamespaceDeclarationSyntax)base.VisitNamespaceDeclaration(node)!;
+        var uselessNodes =
+            namespaceNode
+                .ChildNodes()
+                .Where(
+                    n => n
+                             is not ClassDeclarationSyntax &&
+                         n is not NamespaceDeclarationSyntax &&
+                         n is not QualifiedNameSyntax
+                )!;
+        namespaceNode = namespaceNode.RemoveNodes(uselessNodes, SyntaxRemoveOptions.KeepNoTrivia)!;
 
-    public override SyntaxNode VisitClassDeclaration(ClassDeclarationSyntax node)
-    {
-        var cls = (ClassDeclarationSyntax)base.VisitClassDeclaration(node)!;
-
-
-        List<MemberDeclarationSyntax> methodsDst = new List<MemberDeclarationSyntax>();
-
-        var methodsSrc = cls.Members.OfType<MethodDeclarationSyntax>().ToList();
-        foreach (var method in methodsSrc)
-        {
-            methodsDst.Add(rewriteMethod(method));
-        }
-
-        members.Add(GeneratePublicClass(cls.Identifier, methodsDst));
-
-        return cls;
+        var newName = SyntaxFactory.ParseName(
+            namespaceNode.Name + "Test"
+        );
+        return SyntaxFactory.NamespaceDeclaration(
+            newName,
+            new SyntaxList<ExternAliasDirectiveSyntax>(),
+            new SyntaxList<UsingDirectiveSyntax>(),
+            namespaceNode.Members
+        );
     }
 
-    public override SyntaxNode? VisitUsingDirective(UsingDirectiveSyntax node)
-    {
+    public override SyntaxNode? VisitFileScopedNamespaceDeclaration(FileScopedNamespaceDeclarationSyntax node) {
+        var scopedNamespaceNode = base.VisitFileScopedNamespaceDeclaration(node);
+        return scopedNamespaceNode;
+    }
+
+    public override SyntaxNode VisitClassDeclaration(ClassDeclarationSyntax node) {
+        var clsNode = (ClassDeclarationSyntax)base.VisitClassDeclaration(node)!;
+        var uselessNodes =
+            clsNode
+                .ChildNodes()
+                .Where(
+                    n => n
+                        is not MethodDeclarationSyntax
+                );
+        clsNode = clsNode.RemoveNodes(uselessNodes, SyntaxRemoveOptions.KeepNoTrivia);
+
+
+        var nonPublicMethods = clsNode.ChildNodes().OfType<MethodDeclarationSyntax>().Where(
+            m => !m.Modifiers.Any(SyntaxKind.PublicKeyword)
+        ).ToList();
+        clsNode = clsNode.RemoveNodes(nonPublicMethods, SyntaxRemoveOptions.KeepNoTrivia);
+
+        var publicMethods = clsNode.ChildNodes().OfType<MethodDeclarationSyntax>().ToList();
+        foreach (var method in publicMethods) {
+            clsNode = clsNode.ReplaceNode(method, rewriteMethod(method));
+        }
+
+
+        var newIdentifier = SyntaxFactory.Identifier(clsNode.Identifier.ValueText + "Test");
+        return SyntaxFactory.ClassDeclaration(
+                new SyntaxList<AttributeListSyntax>(),
+                new SyntaxTokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)),
+                newIdentifier,
+                null,
+                null,
+                new SyntaxList<TypeParameterConstraintClauseSyntax>(),
+                clsNode.Members)
+            ;
+    }
+
+    public override SyntaxNode? VisitUsingDirective(UsingDirectiveSyntax node) {
         var usingDirective = (UsingDirectiveSyntax)base.VisitUsingDirective(node)!;
-        usings.Add(usingDirective);
         return usingDirective;
     }
 
-    private MethodDeclarationSyntax rewriteMethod(MethodDeclarationSyntax method)
-    {
+    private MethodDeclarationSyntax rewriteMethod(MethodDeclarationSyntax method) {
+        var newIdentifier = SyntaxFactory.Identifier(method.Identifier.ValueText + "Test");
         return SyntaxFactory.MethodDeclaration(
-            new SyntaxList<AttributeListSyntax>(),
+            new SyntaxList<AttributeListSyntax>(
+                SyntaxFactory.AttributeList(
+                    new SeparatedSyntaxList<AttributeSyntax>().Add(
+                        SyntaxFactory.Attribute(SyntaxFactory.ParseName("Fact"))
+                    )
+                )
+            ),
             method.Modifiers,
             method.ReturnType,
             null,
-            method.Identifier,
+            newIdentifier,
             null,
             method.ParameterList,
             new SyntaxList<TypeParameterConstraintClauseSyntax>(),
             SyntaxFactory.Block(generateAssertFalseStatement()),
             null);
-
-        var expressions = method.DescendantNodes().OfType<AttributeListSyntax>().ToList();
-        var newMethod = method
-            .ReplaceNode(
-                method.Body!,
-                SyntaxFactory.Block(generateAssertFalseStatement())
-            )
-            .RemoveNodes(expressions, SyntaxRemoveOptions.KeepNoTrivia);
-        return newMethod;
     }
 
-    public static ExpressionStatementSyntax generateAssertFalseStatement()
-    {
+    public static ExpressionStatementSyntax generateAssertFalseStatement() {
         return SyntaxFactory.ExpressionStatement(
             SyntaxFactory.InvocationExpression(
                     SyntaxFactory.MemberAccessExpression(
@@ -74,21 +109,5 @@ class CustomCSharpSyntaxRewriter : CSharpSyntaxRewriter
                                 SyntaxFactory.LiteralExpression(
                                     SyntaxKind.StringLiteralExpression,
                                     SyntaxFactory.Token(SyntaxKind.FalseKeyword)))))));
-    }
-
-    public static ClassDeclarationSyntax GeneratePublicClass(
-        SyntaxToken identifier,
-        List<MemberDeclarationSyntax> members
-    )
-    {
-        var publicModifier = SyntaxFactory.Token(SyntaxKind.PublicKeyword);
-        return SyntaxFactory.ClassDeclaration(
-            new SyntaxList<AttributeListSyntax>(), //Attribute list
-            new SyntaxTokenList() { publicModifier }, //Modifiers
-            identifier, //Identifier
-            null, //Type parameter list
-            null, //Base list
-            new SyntaxList<TypeParameterConstraintClauseSyntax>(), //Constraint clauses list
-            SyntaxFactory.List<MemberDeclarationSyntax>(members));
     }
 }
