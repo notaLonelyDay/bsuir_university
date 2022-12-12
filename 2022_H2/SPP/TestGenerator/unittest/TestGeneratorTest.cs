@@ -3,14 +3,18 @@ using Xunit;
 using Xunit.Abstractions;
 
 namespace unittest;
-
-public class TestGeneratorTest {
-    private readonly ITestOutputHelper testOutputHelper;
+public class TestGeneratorTest { private readonly ITestOutputHelper testOutputHelper;
     public TestGeneratorTest(ITestOutputHelper testOutputHelper) {
         this.testOutputHelper = testOutputHelper;
     }
 
-    public const string DefaultFile = @"namespace Lepesh.Lepesh
+    public const string DefaultFile = @"
+
+        using core;
+using Xunit;
+using Xunit.Abstractions;    
+
+namespace Lepesh.Lepesh
         {
             class LepeshClass
             {
@@ -25,6 +29,6 @@ public class TestGeneratorTest {
     [Fact]
     public void ShouldGenerateTestFile() {
         testOutputHelper.WriteLine(TestGenerator.shared.Generate(DefaultFile));
-        Assert.True(false);
+        // Assert.True(false);
     }
 }

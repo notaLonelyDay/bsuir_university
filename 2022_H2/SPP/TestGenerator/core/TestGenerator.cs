@@ -6,12 +6,21 @@ using Microsoft.CodeAnalysis.Formatting;
 
 namespace core;
 
-public class TestGenerator {
-    public string Generate(string source) {
+public class TestGenerator
+{
+    public string Generate(string source)
+    {
         SyntaxTree tree = CSharpSyntaxTree.ParseText(source);
         var root = tree.GetCompilationUnitRoot();
         var cSharpSyntaxRewriter = new CustomCSharpSyntaxRewriter();
-        root = (CompilationUnitSyntax)cSharpSyntaxRewriter.Visit(root);
+
+        cSharpSyntaxRewriter.Visit(root);
+
+        root = SyntaxFactory.CompilationUnit(
+            new SyntaxList<ExternAliasDirectiveSyntax>(),
+            SyntaxFactory.List(cSharpSyntaxRewriter.usings),
+            new SyntaxList<AttributeListSyntax>(),
+            SyntaxFactory.List(cSharpSyntaxRewriter.members));
 
         var workspace = new AdhocWorkspace();
         var resultCompilationUnit = (CompilationUnitSyntax)Formatter.Format(root, workspace);
