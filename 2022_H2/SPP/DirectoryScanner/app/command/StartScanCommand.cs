@@ -31,7 +31,8 @@ public class StartScannerCommand : ICommand {
         if (dialog.ShowDialog().GetValueOrDefault())
             Task.Run(() => {
                 var result = _scanner.startScan(dialog.SelectedPath, 8);
-                _action.Invoke(ScannerUtil.ResultToVO(result));
+                var resultVO = ScannerUtil.ResultToVO(result);
+                _action.Invoke(resultVO);
             });
     }
 }
