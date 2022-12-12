@@ -85,7 +85,7 @@ class CustomCSharpSyntaxRewriter : CSharpSyntaxRewriter {
                     )
                 )
             ),
-            new SyntaxTokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)),
+            method.Modifiers,
             method.ReturnType,
             null,
             newIdentifier,

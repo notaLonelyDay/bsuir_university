@@ -6,8 +6,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dir-scanner", "dir-scanner\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dir-scanner-test", "dir-scanner-test\dir-scanner-test.csproj", "{D17F34F9-E82D-44CF-8AE5-993C6C504424}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.csproj", "{D9BADDCB-2F23-45BE-985A-22126103F254}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +24,5 @@ Global
 		{D17F34F9-E82D-44CF-8AE5-993C6C504424}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D17F34F9-E82D-44CF-8AE5-993C6C504424}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D17F34F9-E82D-44CF-8AE5-993C6C504424}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D9BADDCB-2F23-45BE-985A-22126103F254}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D9BADDCB-2F23-45BE-985A-22126103F254}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D9BADDCB-2F23-45BE-985A-22126103F254}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D9BADDCB-2F23-45BE-985A-22126103F254}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
