@@ -3,7 +3,7 @@
 	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=40bd9893_002D8294_002D46fa_002Dae47_002De491c028e3fd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ShouldGenerateTestFile" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::2A0E5DB5-0112-4831-BDC1-8E538098DF7C::net6.0::unittest.TestGeneratorTest.ShouldGenerateTestFile&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::2A0E5DB5-0112-4831-BDC1-8E538098DF7C::net6.0::unittest.TestGeneratorTest.ShouldGenerateCorrectTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
