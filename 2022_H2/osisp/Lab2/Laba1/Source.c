@@ -1,5 +1,8 @@
 ﻿#include <Windows.h>
 #include <WindowsX.h>
+//#include <String.h>
+//#include <string>
+#include <debugapi.h>
 
 #pragma comment(lib, "Msimg32.lib")
 
@@ -94,11 +97,15 @@ DWORD WINAPI TimerThread(LPVOID lpParam)
 
 	SetWaitableTimer(kernelTimer, &liDueTime, 50, TimerAPCProc, lpParam, FALSE);
 
-	while (!(WaitForSingleObject(kernelTimer, 100) != WAIT_OBJECT_0))
+	//String s;
+	DWORD waited = WaitForSingleObject(kernelTimer, 100);
+	while (waited == WAIT_OBJECT_0)
 	{
 		SleepEx(INFINITE, TRUE);
+		waited = WaitForSingleObject(kernelTimer, 100);
 	}
-
+	//MessageBox(NULL, L"", L"", MB_OK);
+	OutputDebugString("asd");
 	return 0;
 }
 
