@@ -27,7 +27,7 @@ public class ScannerTests {
 
     [Fact]
     public void ShouldThrowIfPathNotValid() {
-        var path = "never gonna give you up";
+        var path = "ta ra ra ra ra";
         var scanner = new DirScannerImpl();
 
         Action result = () => scanner.startScan(path);

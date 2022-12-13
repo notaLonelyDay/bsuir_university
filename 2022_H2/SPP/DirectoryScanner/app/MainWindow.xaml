@@ -17,7 +17,7 @@
             <TreeView.Resources>
                 <HierarchicalDataTemplate ItemsSource="{Binding Directories}" DataType="{x:Type self:DirectoryVO}">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="C:\Users\user\RiderProjects\DirectoryScanner\app\folder.png" Width="15"
+                        <Image Source="C:\Users\user\Desktop\uni\bsuir_university\2022_H2\SPP\DirectoryScanner\app\folder.png" Width="15"
                                Height="15" Margin="0,0,5,0" />
                         <TextBlock Text="{Binding Name}" />
                         <TextBlock Text=" | " />
@@ -29,7 +29,7 @@
                 </HierarchicalDataTemplate>
                 <DataTemplate DataType="{x:Type self:FileVO}">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="C:\Users\user\RiderProjects\DirectoryScanner\app\file.png" Width="15"
+                        <Image Source="C:\Users\user\Desktop\uni\bsuir_university\2022_H2\SPP\DirectoryScanner\app\file.png" Width="15"
                                Height="15" Margin="0,0,5,0" />
                         <TextBlock Text="{Binding Name}" />
                         <TextBlock Text=" | " />
