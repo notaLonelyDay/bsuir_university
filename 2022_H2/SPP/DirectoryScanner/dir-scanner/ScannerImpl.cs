@@ -18,7 +18,7 @@ public class DirScannerImpl : DirScanner
         cancellationTokenSource = new CancellationTokenSource();
         var root = new Directory(path);
         queue.Enqueue(root);
-        while ((!queue.IsEmpty || semaphore.CurrentCount != threadCount) &&
+        while ((semaphore.CurrentCount != threadCount || !queue.IsEmpty) &&
                !cancellationTokenSource.IsCancellationRequested)
         {
             Directory? item;

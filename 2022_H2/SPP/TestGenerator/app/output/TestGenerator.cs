@@ -10,7 +10,7 @@ namespace coreTest;
 public class TestGeneratorTest
 {
     [Fact]
-    public string GenerateTest(string source)
+    public string GenerateTest()
     {
         Assert.True(false);
     }

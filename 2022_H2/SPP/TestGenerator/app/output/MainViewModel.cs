@@ -11,7 +11,7 @@ namespace DirectoryScanner.vmTest;
 public class MainViewModelTest
 {
     [Fact]
-    public void notifyTest(string propName)
+    public void notifyTest()
     {
         Assert.True(false);
     }

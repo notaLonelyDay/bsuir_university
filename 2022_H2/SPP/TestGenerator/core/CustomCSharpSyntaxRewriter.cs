@@ -90,7 +90,7 @@ class CustomCSharpSyntaxRewriter : CSharpSyntaxRewriter {
             null,
             newIdentifier,
             null,
-            method.ParameterList,
+            SyntaxFactory.ParameterList(),
             new SyntaxList<TypeParameterConstraintClauseSyntax>(),
             SyntaxFactory.Block(generateAssertFalseStatement()),
             null);

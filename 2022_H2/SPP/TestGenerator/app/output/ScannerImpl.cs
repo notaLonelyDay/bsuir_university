@@ -9,7 +9,7 @@ namespace dir_scannerTest;
 public class DirScannerImplTest
 {
     [Fact]
-    public Directory startScanTest(string path, int threadCount = 8)
+    public Directory startScanTest()
     {
         Assert.True(false);
     }
@@ -21,19 +21,19 @@ public class DirScannerImplTest
     }
 
     [Fact]
-    public void throwIfInvalidParamsTest(string path, int threadCount)
+    public void throwIfInvalidParamsTest()
     {
         Assert.True(false);
     }
 
     [Fact]
-    public void processDirTest(ref Directory dir, CancellationToken cancellationToken)
+    public void processDirTest()
     {
         Assert.True(false);
     }
 
     [Fact]
-    public void calcSizesTest(Directory dir)
+    public void calcSizesTest()
     {
         Assert.True(false);
     }

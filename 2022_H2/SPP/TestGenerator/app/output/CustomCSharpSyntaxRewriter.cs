@@ -8,31 +8,31 @@ namespace coreTest;
 public class CustomCSharpSyntaxRewriterTest
 {
     [Fact]
-    public SyntaxNode? VisitNamespaceDeclarationTest(NamespaceDeclarationSyntax node)
+    public SyntaxNode? VisitNamespaceDeclarationTest()
     {
         Assert.True(false);
     }
 
     [Fact]
-    public SyntaxNode? VisitFileScopedNamespaceDeclarationTest(FileScopedNamespaceDeclarationSyntax node)
+    public SyntaxNode? VisitFileScopedNamespaceDeclarationTest()
     {
         Assert.True(false);
     }
 
     [Fact]
-    public SyntaxNode VisitClassDeclarationTest(ClassDeclarationSyntax node)
+    public SyntaxNode VisitClassDeclarationTest()
     {
         Assert.True(false);
     }
 
     [Fact]
-    public SyntaxNode? VisitMethodDeclarationTest(MethodDeclarationSyntax node)
+    public SyntaxNode? VisitMethodDeclarationTest()
     {
         Assert.True(false);
     }
 
     [Fact]
-    public SyntaxNode? VisitUsingDirectiveTest(UsingDirectiveSyntax node)
+    public SyntaxNode? VisitUsingDirectiveTest()
     {
         Assert.True(false);
     }
