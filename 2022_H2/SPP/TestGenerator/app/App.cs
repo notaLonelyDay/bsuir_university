@@ -9,9 +9,9 @@ public class App {
         int generateTestFileRestriction = 10;
         int writeToFileRestriction = 10;
 
-        var files = Directory.GetFiles(@"C:\Users\user\Desktop\uni\bsuir_university\2022_H2\SPP\TestGenerator\app\input");
+        var input = Directory.GetFiles(@"C:\Users\user\Desktop\uni\bsuir_university\2022_H2\SPP\TestGenerator\app\input");
         var generator = TestGenerator.shared;
-        var storePath = @"C:\Users\user\Desktop\uni\bsuir_university\2022_H2\SPP\TestGenerator\app\output";
+        var output = @"C:\Users\user\Desktop\uni\bsuir_university\2022_H2\SPP\TestGenerator\app\output";
 
         var readFromFileBlockOptions = new ExecutionDataflowBlockOptions()
             { MaxDegreeOfParallelism = readFromFileRestriction };
@@ -45,7 +45,7 @@ public class App {
                 }
 
                 Console.WriteLine($"write {input.Name}");
-                using FileStream fileStream = File.Create(storePath + $"\\{input.Name}");
+                using FileStream fileStream = File.Create(output + $"\\{input.Name}");
                 byte[] info = new UTF8Encoding(true).GetBytes(input.Content);
                 await fileStream.WriteAsync(info);
             },
@@ -56,7 +56,7 @@ public class App {
         readFromFileBlock.LinkTo(generateTestFileBlock, linkOptions);
         generateTestFileBlock.LinkTo(writeToFileBlock, linkOptions);
 
-        foreach (var file in files) {
+        foreach (var file in input) {
             await readFromFileBlock.SendAsync(file);
         }
 
