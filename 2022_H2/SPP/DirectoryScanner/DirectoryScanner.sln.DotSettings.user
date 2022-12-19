@@ -8,9 +8,7 @@
 	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f64b06d1_002Ddb85_002D401a_002Da2fc_002D29c4eb452cc1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ShouldWorkIfValid #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::D17F34F9-E82D-44CF-8AE5-993C6C504424::net6.0::ScannerTests.ShouldWorkIfValid&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::D17F34F9-E82D-44CF-8AE5-993C6C504424::net6.0::ScannerTests.ShouldThrowIfPathNotValid&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::D17F34F9-E82D-44CF-8AE5-993C6C504424::net6.0::ScannerTests.ShouldCancelExecution&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::D17F34F9-E82D-44CF-8AE5-993C6C504424::net6.0::ScannerTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=dirscanner/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

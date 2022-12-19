@@ -13,8 +13,7 @@
 	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=71e2124d_002D24ce_002D4cfb_002D8254_002D776bb9cd189c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ShouldGenerateTestFile #18" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::2A0E5DB5-0112-4831-BDC1-8E538098DF7C::net6.0::unittest.TestGeneratorTest.ShouldGenerateTestFile&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::E3E968B0-4284-4851-B0BE-09C64AC13824::net6.0::TestsGenerator.Core.InputFilesTest.TestClassTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::2A0E5DB5-0112-4831-BDC1-8E538098DF7C::net6.0::unittest.TestGeneratorTest.ShouldGenerateTestFiles&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=81f5edac_002D01fa_002D4f09_002D820b_002Db23ca7237b5c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ShouldGenerateTestFile #10" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
