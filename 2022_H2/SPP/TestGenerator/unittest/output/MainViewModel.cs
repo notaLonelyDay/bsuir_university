@@ -1,24 +1,19 @@
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Windows.Input;
-using dir_scanner;
-using DirectoryScanner.command;
-using DirectoryScanner.vo;
 using Xunit;
 
-namespace DirectoryScanner.vmTest;
-
-public class MainViewModelTest
+namespace DirectoryScanner.vm.Tests
 {
-    [Fact]
-    public void notifyTest(string propName)
+    public class MainViewModelTest
     {
-        Assert.True(false);
-    }
+        [Fact]
+        public void notifyTest()
+        {
+            Assert.True(false);
+        }
 
-    [Fact]
-    public void emptyTest()
-    {
-        Assert.True(false);
+        [Fact]
+        public void emptyTest()
+        {
+            Assert.True(false);
+        }
     }
 }

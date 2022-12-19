@@ -1,17 +1,13 @@
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Editing;
-using Microsoft.CodeAnalysis.Formatting;
 using Xunit;
 
-namespace coreTest;
-
-public class TestGeneratorTest
+namespace core.Tests
 {
-    [Fact]
-    public string GenerateTest()
+    public class TestGeneratorTest
     {
-        Assert.True(false);
+        [Fact]
+        public void GenerateTest()
+        {
+            Assert.True(false);
+        }
     }
 }

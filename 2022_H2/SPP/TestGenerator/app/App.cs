@@ -9,7 +9,8 @@ public class App {
         int generateTestFileRestriction = 10;
         int writeToFileRestriction = 10;
 
-        var input = Directory.GetFiles(@"C:\Users\user\Desktop\uni\bsuir_university\2022_H2\SPP\TestGenerator\app\input");
+        var input = Directory.GetFiles(
+            @"C:\Users\user\Desktop\uni\bsuir_university\2022_H2\SPP\TestGenerator\app\input");
         var generator = TestGenerator.shared;
         var output = @"C:\Users\user\Desktop\uni\bsuir_university\2022_H2\SPP\TestGenerator\app\output";
 
@@ -33,11 +34,15 @@ public class App {
             },
             readFromFileBlockOptions);
 
-        var generateTestFileBlock = new TransformBlock<ReadFromFileOutput, GenerateTestFileOutput>(input => {
-                var result = generator.Generate(input.Content);
-                return new GenerateTestFileOutput(input.Name, result);
+        var generateTestFilesBlock = new TransformManyBlock<ReadFromFileOutput, GenerateTestFileOutput>(input => {
+                var results = generator.Generate(input.Content);
+                return results.Select(i => {
+                    Console.WriteLine($"generated {i.name}");
+                    return new GenerateTestFileOutput(i.name + ".cs", i.content);
+                }).ToList();
             },
             generateTestFileOptions);
+
 
         var writeToFileBlock = new ActionBlock<GenerateTestFileOutput>(async input => {
                 if (!input.Content.Any()) {
@@ -53,8 +58,8 @@ public class App {
 
         var linkOptions = new DataflowLinkOptions { PropagateCompletion = true };
 
-        readFromFileBlock.LinkTo(generateTestFileBlock, linkOptions);
-        generateTestFileBlock.LinkTo(writeToFileBlock, linkOptions);
+        readFromFileBlock.LinkTo(generateTestFilesBlock, linkOptions);
+        generateTestFilesBlock.LinkTo(writeToFileBlock, linkOptions);
 
         foreach (var file in input) {
             await readFromFileBlock.SendAsync(file);

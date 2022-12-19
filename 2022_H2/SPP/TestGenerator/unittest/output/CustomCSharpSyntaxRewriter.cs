@@ -1,45 +1,43 @@
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Xunit;
 
-namespace coreTest;
-
-public class CustomCSharpSyntaxRewriterTest
+namespace core.Tests
 {
-    [Fact]
-    public SyntaxNode? VisitNamespaceDeclarationTest(NamespaceDeclarationSyntax node)
+    public class CustomCSharpSyntaxRewriterTest
     {
-        Assert.True(false);
-    }
+        [Fact]
+        public void VisitNamespaceDeclarationTest()
+        {
+            Assert.True(false);
+        }
 
-    [Fact]
-    public SyntaxNode? VisitFileScopedNamespaceDeclarationTest(FileScopedNamespaceDeclarationSyntax node)
-    {
-        Assert.True(false);
-    }
+        [Fact]
+        public void VisitFileScopedNamespaceDeclarationTest()
+        {
+            Assert.True(false);
+        }
 
-    [Fact]
-    public SyntaxNode VisitClassDeclarationTest(ClassDeclarationSyntax node)
-    {
-        Assert.True(false);
-    }
+        [Fact]
+        public void VisitClassDeclarationTest()
+        {
+            Assert.True(false);
+        }
 
-    [Fact]
-    public SyntaxNode? VisitMethodDeclarationTest(MethodDeclarationSyntax node)
-    {
-        Assert.True(false);
-    }
+        [Fact]
+        public void VisitMethodDeclarationTest()
+        {
+            Assert.True(false);
+        }
 
-    [Fact]
-    public SyntaxNode? VisitUsingDirectiveTest(UsingDirectiveSyntax node)
-    {
-        Assert.True(false);
-    }
+        [Fact]
+        public void VisitUsingDirectiveTest()
+        {
+            Assert.True(false);
+        }
 
-    [Fact]
-    public ExpressionStatementSyntax generateAssertFalseStatementTest()
-    {
-        Assert.True(false);
+        [Fact]
+        public void generateAssertFalseStatementTest()
+        {
+            Assert.True(false);
+        }
     }
 }

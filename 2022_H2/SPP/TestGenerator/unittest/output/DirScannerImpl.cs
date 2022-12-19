@@ -1,17 +1,17 @@
 using Xunit;
 
-namespace DirectoryScanner.vm.Tests
+namespace dir_scanner.Tests
 {
-    public class MainViewModelTest
+    public class DirScannerImplTest
     {
         [Fact]
-        public void notifyTest()
+        public void startScanTest()
         {
             Assert.True(false);
         }
 
         [Fact]
-        public void emptyTest()
+        public void cancelTest()
         {
             Assert.True(false);
         }
