@@ -55,7 +55,7 @@ public class StringFormatter : IStringFormatter {
                 if (inBraces) {
                     inBraces = false;
                     opened--;
-                    ans.Append(getMember(expression.ToString(), target)); //todo do we need toString?
+                    ans.Append(getMember(expression.ToString(), target));
                     expression.Clear();
                 }
                 else {
@@ -113,8 +113,7 @@ public class StringFormatter : IStringFormatter {
         var memberInfo = targetType.GetMember(memberName).FirstOrDefault()
                          ?? throw new FormatException($"Target {targetType.Name} dos not have member {memberName}");
         var memberAccess = Expression.MakeMemberAccess(targetTypeParameter, memberInfo);
-        var methodCall =
-            Expression.Call(memberAccess, memberInfo.DeclaringType!.GetMethod("ToString")!); //todo add null handling
+        var methodCall = Expression.Call(memberAccess, memberInfo.DeclaringType!.GetMethod("ToString")!);
         var delegateType = Expression.GetDelegateType(targetType, typeof(string));
         return Expression.Lambda(delegateType, methodCall, targetTypeParameter).Compile();
     }
