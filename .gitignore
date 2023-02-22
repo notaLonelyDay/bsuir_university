@@ -6,3 +6,4 @@
 **/cmake-build-debug/
 **/bin/
 **/*.jar
+**/node_modules/
