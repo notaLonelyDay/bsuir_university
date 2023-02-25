@@ -1,0 +1,15 @@
+div(class="p-3 border border-2 mb-4")
+    div(class="border-bottom d-flex flex-column bd-highlight mb-3 pl-3 font-monospace")
+        span(class="p-1 bd-highlight fs-5")
+            |    #{post.title}
+
+        span(class="p-1 bd-highlight text-black-50 fw-light")
+            |    автор: #{post.author} |
+            span(class="p-0 bd-highlight")
+                |   #{post.createdAt.toLocaleString()}
+    div(class="d-flex flex-raw")
+        if post.image != null
+            img(src=post.image width=300)
+
+        p(class="p-2")
+            | #{post.text}
