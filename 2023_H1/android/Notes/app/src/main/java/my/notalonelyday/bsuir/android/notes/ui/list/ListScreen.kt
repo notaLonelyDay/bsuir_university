@@ -75,7 +75,7 @@ fun ListScreen(
             .fillMaxSize()
             .padding(
                 0.dp,
-                30.dp,
+                45.dp,
                 0.dp,
                 0.dp
             )
