@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.prof.rssparser.Channel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import my.notalonelyday.bsuir.android.rssreader.data.repository.AppRepo
 import kotlin.coroutines.cancellation.CancellationException
@@ -27,18 +29,25 @@ class FeedViewModel(
     var isRefreshing by mutableStateOf(false)
 
     private var updateChannelJob: Job? = null
+
+    init {
+        updateChannel()
+    }
     fun updateChannel() {
         updateChannelJob?.cancel()
         updateChannelJob = viewModelScope.launch {
             isRefreshing = true
+            delay(200)
             try {
                 _channelFlow.value = repo.getChannel(channelUrl.value)
                 _errorFlow.value = null
             } catch (e: Exception) {
                 if (e is CancellationException)
                     throw e
-                _errorFlow.value = e.toString()
-                _channelFlow.value = null
+                if(isActive) {
+                    _errorFlow.value = e.toString()
+                    _channelFlow.value = null
+                }
             } finally {
                 isRefreshing = false
             }
